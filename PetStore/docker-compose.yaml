@@ -1,0 +1,28 @@
+version: "3.3"
+services:
+   db:
+     image: mysql:latest
+     restart: always
+     volumes:
+       - ./mysql-dump:/docker-entrypoint-initdb.d
+     environment:
+       MYSQL_ROOT_PASSWORD: qburst123
+       MYSQL_DATABASE: petstore
+       MYSQL_USER: aswathy
+       MYSQL_PASSWORD: qburst123
+     ports:
+       - "3306:3306"
+   web:
+    depends_on:
+      - db
+    
+    image: tomcat:9.0.46
+    volumes:
+      - ./PetStore.war:/usr/local/tomcat/webapps/PetStore.war
+    ports:
+      - "8080:8080"
+    environment:
+      MYSQL_ROOT_PASSWORD: qburst123
+      MYSQL_DATABASE: petstore
+      MYSQL_USER: aswathy
+      MYSQL_PASSWORD: qburst123
